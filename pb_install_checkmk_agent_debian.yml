@@ -1,0 +1,26 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+
+
+  - name: Check if check-mk-Agent is installed
+    command: dpkg-query -W check-mk-agent
+    register: check_mk_agent_check_deb
+    failed_when: check_mk_agent_check_deb.rc > 1
+    changed_when: check_mk_agent_check_deb.rc == 1
+    when: ansible_facts['os_family'] == "Debian"
+
+  - name: Download check-mk-agent
+    get_url:
+      url="http://10.0.0.5/check-mk-agent_2.1.0p9-1_all.deb"
+      dest="/tmp/check-mk-agent.deb"
+    when: ansible_facts['os_family'] == "Debian" and 
+          check_mk_agent_check_deb.rc == 1
+
+  - name: Install check-mk-agent
+    apt: deb="/tmp//check-mk-agent.deb"
+    when: ansible_facts['os_family'] == "Debian" and
+          check_mk_agent_check_deb.rc == 1

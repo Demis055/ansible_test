@@ -4,11 +4,28 @@
   become: true
   tasks:
 
-  - name: update repo cache
-    apt: 
-      update_cache: yes
+# Debian based OS
 
-  - name: install net-tools package
+  - name: APT >> update repo cache
+    apt:
+      update_cache: yes
+    when: ansible_facts['os_family'] == "Debian"
+
+  - name: APT >> install net-tools package
     apt:
       name: net-tools
       state: latest
+    when: ansible_facts['os_family'] == "Debian"
+
+# RedHat based OS
+
+  - name: YUM >> update repo cache
+    yum:
+      update_cache: yes
+    when: ansible_facts['os_family'] == "RedHat"
+
+  - name: YUM >> install net-tools package
+    yum:
+      name: net-tools
+      state: latest
+    when: ansible_facts['os_family'] == "RedHat"
