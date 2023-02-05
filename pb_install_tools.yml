@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update repo cache
+    apt: 
+      update_cache: yes
+
+  - name: install net-tools package
+    apt:
+      name: net-tools
+      state: latest
