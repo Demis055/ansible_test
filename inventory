@@ -1,4 +1,4 @@
-#add hostnames if DNS is available or IP addresses of managed hosts
+# Add hostnames if DNS is available or IP addresses of managed hosts
 
-#Testserver
+# Testserver
 10.0.0.99
